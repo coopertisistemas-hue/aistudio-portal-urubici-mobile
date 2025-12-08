@@ -1,55 +1,96 @@
-interface Ad {
-  title: string;
-  subtitle: string;
-  image: string;
-  link: string;
-  isAd: boolean;
+import { useState, useEffect } from 'react';
+
+interface FeaturedAd {
+    title: string;
+    subtitle: string;
+    image: string;
+    link: string;
+    isAd: boolean;
 }
 
 interface FeaturedAdsCarouselProps {
-  ads: Ad[];
+    ads: FeaturedAd[];
 }
 
 export default function FeaturedAdsCarousel({ ads }: FeaturedAdsCarouselProps) {
-  return (
-    <div className="px-4 mb-6">
-      <div className="relative overflow-hidden rounded-2xl">
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-2">
-          {ads.map((ad, index) => (
-            <a
-              key={index}
-              href={ad.link}
-              className="flex-shrink-0 w-[85%] snap-start group"
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [isHovering, setIsHovering] = useState(false);
+
+    useEffect(() => {
+        if (!isHovering) {
+            const interval = setInterval(() => {
+                setCurrentSlide((prev) => (prev + 1) % ads.length);
+            }, 4000);
+            return () => clearInterval(interval);
+        }
+    }, [isHovering, ads.length]);
+
+    return (
+        <div className="px-4 mb-6">
+            <div
+                className="relative overflow-hidden"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                onTouchStart={() => setIsHovering(true)}
+                onTouchEnd={() => setIsHovering(false)}
             >
-              <div className="relative h-40 rounded-2xl overflow-hidden bg-gradient-to-br from-orange-500/20 to-orange-600/20 border border-orange-400/30 shadow-lg hover:shadow-xl transition-all duration-300">
-                <img
-                  alt={ad.title}
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
-                  src={ad.image}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h4 className="text-white font-bold text-base mb-1 leading-tight">
-                        {ad.title}
-                      </h4>
-                      <p className="text-white/80 text-xs leading-relaxed">
-                        {ad.subtitle}
-                      </p>
-                    </div>
-                    {ad.isAd && (
-                      <span className="ml-2 px-2 py-1 bg-orange-500/80 text-white text-xs font-medium rounded-full whitespace-nowrap">
-                        Anúncio
-                      </span>
-                    )}
-                  </div>
+                <div
+                    className="flex transition-transform duration-500 ease-in-out"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                >
+                    {ads.map((ad, index) => (
+                        <div key={index} className="w-full flex-shrink-0 px-2">
+                            <div className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl hover:bg-white/15 hover:scale-105">
+                                <a
+                                    href={ad.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block"
+                                    aria-label={`${ad.title} — ${ad.subtitle}`}
+                                >
+                                    <div className="relative h-48 overflow-hidden rounded-t-3xl">
+                                        <img
+                                            alt={ad.title}
+                                            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
+                                            src={ad.image}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                        <div className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium shadow-lg bg-orange-600/90 text-white">
+                                            Destaque
+                                        </div>
+                                    </div>
+                                    <div className="p-6">
+                                        <h3 className="font-bold text-white text-xl mb-2 leading-tight group-hover:text-orange-200 transition-colors">
+                                            {ad.title}
+                                        </h3>
+                                        <p className="text-white/80 text-sm leading-relaxed mb-4">
+                                            {ad.subtitle}
+                                        </p>
+                                        <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 whitespace-nowrap shadow-lg hover:shadow-xl transform hover:scale-105 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white">
+                                            <span>Saiba Mais</span>
+                                            <i className="ri-arrow-right-line text-sm" />
+                                        </div>
+                                    </div>
+                                </a>
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-3xl" />
+                            </div>
+                        </div>
+                    ))}
                 </div>
-              </div>
-            </a>
-          ))}
+
+                <div className="flex justify-center mt-6 space-x-2">
+                    {ads.map((_, dotIndex) => (
+                        <button
+                            key={dotIndex}
+                            onClick={() => setCurrentSlide(dotIndex)}
+                            className={`h-2 rounded-full transition-all duration-300 ${currentSlide === dotIndex ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60 w-2'
+                                }`}
+                            aria-label={`Ir para slide ${dotIndex + 1}`}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
+

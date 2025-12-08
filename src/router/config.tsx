@@ -24,6 +24,7 @@ import OficinasMecanicas from '../pages/guia-servicos/veiculos-auto-transporte/o
 import TransportePassageiros from '../pages/guia-servicos/veiculos-auto-transporte/transporte-passageiros/page';
 import ServicosProfissionaisTecnicos from '../pages/guia-servicos/servicos-profissionais-tecnicos/page';
 import BelezaEstetica from '../pages/guia-servicos/servicos-profissionais-tecnicos/beleza-estetica/page';
+
 import ReparosDomiciliares from '../pages/guia-servicos/servicos-profissionais-tecnicos/reparos-domiciliares/page';
 import TecnologiaComunicacao from '../pages/guia-servicos/tecnologia-comunicacao/page';
 import InformaticaSuporte from '../pages/guia-servicos/tecnologia-comunicacao/informatica-suporte/page';
@@ -250,6 +251,7 @@ const routes: RouteObject[] = [
     path: '/guia-servicos/servicos-profissionais-tecnicos/beleza-estetica',
     element: <BelezaEstetica />
   },
+
   {
     path: '/guia-servicos/servicos-profissionais-tecnicos/reparos-domiciliares',
     element: <ReparosDomiciliares />

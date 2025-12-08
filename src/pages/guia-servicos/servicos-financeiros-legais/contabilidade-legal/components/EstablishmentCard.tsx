@@ -16,6 +16,7 @@ interface Establishment {
   google_reviews_count?: number | null;
   business_hours?: any | null;
   map_url?: string | null;
+  image_url?: string | null;
 }
 
 interface EstablishmentCardProps {
@@ -33,13 +34,12 @@ function renderStars(rating: number) {
   return [1, 2, 3, 4, 5].map((star) => (
     <i
       key={star}
-      className={`${
-        star <= Math.floor(rating)
+      className={`${star <= Math.floor(rating)
           ? 'ri-star-fill text-yellow-400'
           : star - 0.5 <= rating
-          ? 'ri-star-half-fill text-yellow-400'
-          : 'ri-star-line text-yellow-400/40'
-      } text-xs`}
+            ? 'ri-star-half-fill text-yellow-400'
+            : 'ri-star-line text-yellow-400/40'
+        } text-xs`}
     />
   ));
 }
@@ -49,7 +49,7 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
   const reviewCount = establishment.google_reviews_count;
   const openStatus = isOpenNow(establishment.business_hours);
   const hasContact = establishment.whatsapp || establishment.phone;
-  const whatsappUrl = hasContact 
+  const whatsappUrl = hasContact
     ? `https://wa.me/${(establishment.whatsapp || establishment.phone)?.replace(/\D/g, '')}?text=Olá! Gostaria de informações sobre ${establishment.name}`
     : '#';
 
@@ -58,13 +58,19 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
       <div className="flex gap-4">
         {/* Image */}
         <div className="w-20 h-20 rounded-xl overflow-hidden bg-white/20 flex-shrink-0">
-          <img
-            alt={establishment.name}
-            className="w-full h-full object-cover"
-            src={`https://readdy.ai/api/search-image?query=$%7BencodeURIComponent%28%60$%7Bestablishment.name%7D%20accounting%20legal%20services%20office%20in%20Urubici%20Santa%20Catarina%20Brazil%20professional%20business%20environment%60%29%7D&width=200&height=200&seq=${establishment.id}&orientation=squarish`}
-          />
+          {establishment.image_url ? (
+            <img
+              alt={establishment.name}
+              className="w-full h-full object-cover"
+              src={establishment.image_url}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-amber-500/10">
+              <i className="ri-file-text-line text-3xl text-amber-400" />
+            </div>
+          )}
         </div>
-        
+
         <div className="flex-1">
           <div className="flex items-start justify-between mb-2">
             <div className="flex-1">
@@ -72,7 +78,7 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
               <h5 className="text-white font-bold text-sm leading-tight mb-1">
                 {establishment.name}
               </h5>
-              
+
               {/* Rating */}
               {displayRating && displayRating > 0 ? (
                 <div className="flex items-center gap-1.5 mb-2">
@@ -91,7 +97,7 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
               ) : (
                 <p className="text-white/50 text-xs mb-2 italic">Avaliação em breve</p>
               )}
-              
+
               {/* Address */}
               {establishment.address && (
                 <p className="text-white/70 text-xs mb-2 w-full break-words overflow-hidden line-clamp-2">
@@ -102,7 +108,7 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
                 </p>
               )}
             </div>
-            
+
             {/* Right side badges */}
             <div className="flex flex-col gap-1.5 items-end ml-2 flex-shrink-0">
               {/* Group chip */}
@@ -111,7 +117,7 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
                   {groupName.slice(0, -1)}
                 </div>
               )}
-              
+
               {/* Open status */}
               {openStatus === true && (
                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium whitespace-nowrap">
@@ -163,17 +169,16 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
               target={hasContact ? "_blank" : undefined}
               rel={hasContact ? "noopener noreferrer" : undefined}
               onClick={!hasContact ? (e) => e.preventDefault() : undefined}
-              className={`inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-white text-xs font-medium transition-all duration-200 whitespace-nowrap min-h-[44px] ${
-                hasContact
+              className={`inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-white text-xs font-medium transition-all duration-200 whitespace-nowrap min-h-[44px] ${hasContact
                   ? 'bg-green-600 hover:bg-green-700 hover:scale-105 cursor-pointer'
                   : 'bg-gray-500/50 cursor-not-allowed opacity-50'
-              }`}
+                }`}
               title={hasContact ? 'Enviar mensagem no WhatsApp' : 'WhatsApp não disponível'}
             >
               <i className="ri-whatsapp-line text-base" />
               <span>WhatsApp</span>
             </a>
-            
+
             <button
               disabled
               className="inline-flex items-center justify-center gap-2 px-3 py-2.5 bg-purple-500/50 cursor-not-allowed rounded-lg text-white text-xs font-medium opacity-50 whitespace-nowrap min-h-[44px]"
@@ -182,7 +187,7 @@ export default function EstablishmentCard({ establishment, groupName }: Establis
               <i className="ri-file-list-line text-base" />
               <span>Ver Página</span>
             </button>
-            
+
             <button
               disabled
               className="col-span-2 inline-flex items-center justify-center gap-2 px-3 py-2.5 bg-amber-600/50 cursor-not-allowed rounded-lg text-white text-xs font-medium opacity-50 whitespace-nowrap min-h-[44px]"
