@@ -61,9 +61,9 @@ export default function ServicosProfissionaisTecnicos() {
   const subcategories = [
     {
       title: "Beleza e Estética",
-      description: "Salões de beleza, barbearias, manicures e centros de estética.",
-      icon: "ri-scissors-cut-line",
-      color: "cyan",
+      description: "Salões de beleza, barbearias, manicures e clínicas de estética.",
+      icon: "ri-scissors-2-line",
+      color: "rose",
       link: "/guia-servicos/servicos-profissionais-tecnicos/beleza-estetica"
     },
     {
@@ -192,9 +192,8 @@ export default function ServicosProfissionaisTecnicos() {
                           setCurrentLanguage(lang.code);
                           setLanguageDropdown(false);
                         }}
-                        className={`w-full px-3 py-2 text-left text-sm hover:bg-white/50 transition-colors ${
-                          currentLanguage === lang.code ? 'bg-white/30 font-medium' : ''
-                        }`}
+                        className={`w-full px-3 py-2 text-left text-sm hover:bg-white/50 transition-colors ${currentLanguage === lang.code ? 'bg-white/30 font-medium' : ''
+                          }`}
                       >
                         {lang.name}
                       </button>
@@ -277,9 +276,8 @@ export default function ServicosProfissionaisTecnicos() {
                 <button
                   key={dotIndex}
                   onClick={() => setCurrentSlide(dotIndex)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === dotIndex ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60 w-2'
-                  }`}
+                  className={`h-2 rounded-full transition-all duration-300 ${currentSlide === dotIndex ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60 w-2'
+                    }`}
                   aria-label={`Ir para slide ${dotIndex + 1}`}
                 />
               ))}
@@ -342,11 +340,11 @@ export default function ServicosProfissionaisTecnicos() {
               <h3 className="text-white font-bold text-base">Sobre esta Categoria</h3>
             </div>
             <p className="text-white/90 text-sm leading-relaxed text-center mb-4">
-              Aqui você encontrará todos os serviços profissionais e técnicos que atendem moradores e empresas em Urubici. 
+              Aqui você encontrará todos os serviços profissionais e técnicos que atendem moradores e empresas em Urubici.
               Desde salões de beleza e barbearias até eletricistas, encanadores e gráficas.
             </p>
             <p className="text-white/80 text-sm leading-relaxed text-center mb-4">
-              Em breve, esta página apresentará uma lista completa de todos os profissionais e empresas da cidade, 
+              Em breve, esta página apresentará uma lista completa de todos os profissionais e empresas da cidade,
               com informações de contato, especialidades e horários de atendimento.
             </p>
             <div className="flex items-center justify-center gap-2 text-cyan-300 text-xs">
@@ -434,9 +432,8 @@ export default function ServicosProfissionaisTecnicos() {
                 <button
                   key={dotIndex}
                   onClick={() => setCurrentPartnerSlide(dotIndex)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    currentPartnerSlide === dotIndex ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60 w-1.5'
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${currentPartnerSlide === dotIndex ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60 w-1.5'
+                    }`}
                   aria-label={`Ir para parceiro ${dotIndex + 1}`}
                 />
               ))}
